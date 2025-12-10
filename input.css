@@ -1,1 +1,121 @@
 @import "tailwindcss";
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.nav {
+    background-image: url('bgi.png');
+}
+
+.foot {
+    background-image: url('bgi.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.menu-tab.active {
+    background: red;
+    color: white;
+}
+
+.menu-tab:hover {
+    background: red;
+}
+
+.menu-tab.active:hover {
+     background: red;
+}
+
+.hero-slide {
+    transition: opacity 1s ease-in-out;
+}
+.hero-slide.active {
+    opacity: 1;
+}
+.hero-slide.inactive {
+    opacity: 0;
+}
+
+.cart-item {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 1s ease-out;
+}
+
+.animate-fadeInUp-500 {
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+.animate-fadeInUp-800 {
+    animation: fadeInUp 1s ease-out 0.8s both;
+}
+
+.animate-slideInRight {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* Default Scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #eee;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #bbb;
+        border-radius: 10px;
+    }
