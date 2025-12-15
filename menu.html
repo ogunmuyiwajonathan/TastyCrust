@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/svg+xml" href="tasty.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasty Crust Restaurant | Menu</title>
+  <link href="./output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    @media screen and (max-width: 768px) {
+
+      
+    }
+    .menu-tab {
+      background-color: #ffffff;
+      color: #4b5563;
+    }
+
+    .menu-tab:hover {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+
+    .menu-tab.active {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+ <nav class="nav shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="logo flex items-center space-x-2">
+        <img src="tasty.png" alt="Tasty Crust Logo" class="w-10 h-10">
+        <span class="text-2xl font-bold text-red-600">Tasty Crust</span>
+      </a>
+
+      <div class="hidden md:flex space-x-8">
+        <a href="index.html" class="text-gray-700 hover:text-red-600 font-medium">Home</a>
+        <a href="menu.html" class="text-gray-700 hover:text-red-600 font-medium active-nav">Menu</a>
+        <a href="about.html" class="text-gray-700 hover:text-red-600 font-medium">About</a>
+        <a href="book.html" class="text-gray-700 hover:text-red-600 font-medium">Book Your Table</a>
+        <a href="contact.html" class="text-gray-700 hover:text-red-600 font-medium">Contact</a>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <button id="cart-toggle" class="relative text-gray-700 hover:text-red-600">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+
+        <button id="mobile-menu-toggle" class="md:hidden text-gray-700">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden bg-white px-4 py-2 hidden">
+      <a href="index.html" class="block py-2 text-gray-700 hover:text-red-600">Home</a>
+      <a href="menu.html" class="block py-2 text-gray-700 hover:text-red-600">Menu</a>
+      <a href="about.html" class="block py-2 text-gray-700 hover:text-red-600">About</a>
+      <a href="book.html" class="block py-2 text-gray-700 hover:text-red-600">Book Your Table</a>
+      <a href="contact.html" class="block py-2 text-gray-700 hover:text-red-600">Contact</a>
+    </div>
+  </nav>
+
+  <div id="cart-sidebar"
+    class="transition duration-400 ease-in-out fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-xl z-50 overflow-y-auto transform translate-x-full">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Your Cart</h2>
+        <button id="close-cart" class="text-gray-500 hover:text-red-600">
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+      </div>
+
+      <div id="cart-items" class="mb-6">
+        <p id="empty-cart-message" class="text-gray-500 text-center py-8">Your cart is empty. Add some delicious
+          items!</p>
+      </div>
+
+      <div class="border-t pt-4">
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-700">Subtotal</span>
+          <span id="cart-subtotal" class="font-bold">$0.00</span>
+        </div>
+        <div class="flex justify-between mb-4">
+          <span class="text-gray-700">Tax (10%)</span>
+          <span id="cart-tax" class="font-bold">$0.00</span>
+        </div>
+        <div class="flex justify-between text-xl font-bold mb-6">
+          <span>Total</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button id="checkout-btn"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled>
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <section id="menu" class="pb-16 bg-gray-50">
+    <img class="w-full hidden lg:flex h-screen object-top " src="https://i.postimg.cc/Vv8VmGcY/image.png" alt="">
+    <img class="lg:hidden" src="https://i.postimg.cc/BQcGLFh2/img.png" alt="">
+    <div class="container mx-auto pt-16 px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Our Menu</h2>
+      <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Explore our delicious selection of dishes,
+        carefully crafted to satisfy every palate.</p>
+
+      <div class="flex justify-center mb-8">
+        <div class="relative w-full max-w-lg">
+          <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input type="text" id="menu-search" placeholder="Search entire menu (e.g., 'avocado toast', 'salmon')"
+            class="w-full p-4 pl-12 border-2 border-red-200 rounded-full shadow-lg text-gray-700 placeholder-gray-400 focus:border-red-600 focus:ring-red-600 transition duration-300 ease-in-out"
+            aria-label="Search menu items">
+        </div>
+      </div>
+
+      <div class="flex justify-start md:justify-center mb-10 overflow-x-auto">
+        <div class="flex rounded-lg border border-gray-200 overflow-hidden shadow-md min-w-max">
+          <button
+            class="menu-tab active py-3 px-4 font-medium whitespace-nowrap transition duration-300 text-sm md:text-base border-r border-gray-200"
+            data-category="starters">⭐ Starters (Appetizers)</button>
+          <button
+            class="menu-tab py-3 px-4 font-medium whitespace-nowrap transition duration-300 text-sm md:text-base border-r border-gray-200"
+            data-category="main_course">⭐ Main Course</button>
+          <button
+            class="menu-tab py-3 px-4 font-medium whitespace-nowrap transition duration-300 text-sm md:text-base border-r border-gray-200"
+            data-category="sides">⭐ Sides</button>
+          <button
+            class="menu-tab py-3 px-4 font-medium whitespace-nowrap transition duration-300 text-sm md:text-base border-r border-gray-200"
+            data-category="breakfast_brunch">⭐ Breakfast & Brunch</button>
+          <button
+            class="menu-tab py-3 px-4 font-medium whitespace-nowrap transition duration-300 text-sm md:text-base border-r border-gray-200"
+            data-category="desserts">⭐ Desserts</button>
+          <button class="menu-tab py-3 px-4 font-medium whitespace-nowrap transition duration-300 text-sm md:text-base"
+            data-category="drinks">⭐ Drinks (Beverages)</button>
+        </div>
+      </div>
+
+      <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot text-black py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:grid md:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-10">
+        <div class="md:col-span-1 flex flex-col items-center md:items-start">
+          <img src="tasty.png" alt="Tasty Crust Logo"
+            class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 filter brightness-150">
+          <h3 class="text-xl md:text-2xl font-bold text-red-500 mb-1 md:mb-2 text-center md:text-left">Tasty
+            Crust</h3>
+          <p class="text-gray-600 text-xs md:text-sm text-center md:text-left max-w-xs">
+            Savor the Flavor. Modern ordering for a classic taste.
+          </p>
+        </div>
+
+        <div class="text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-red-400">Quick Links</h4>
+          <ul class="space-y-1 md:space-y-2">
+            <li><a href="index.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Home</a>
+            </li>
+            <li><a href="menu.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Menu</a>
+            </li>
+            <li><a href="about.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Our
+                Story</a></li>
+            <li><a href="contact.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-red-400">Contact</h4>
+          <ul class="space-y-2 md:space-y-3">
+            <li class="flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-3">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-map-marker-alt text-red-400 text-sm md:text-base"></i>
+                <p class="text-gray-600 text-xs md:text-sm text-center md:text-left">123 New way Road, Liverpool</p>
+              </div>
+            </li>
+            <li class="flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-3">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-phone-alt text-red-400 text-sm md:text-base"></i>
+                <p class="text-gray-600 text-xs md:text-sm text-center md:text-left">(+44) 987 654 3210
+                </p>
+              </div>
+            </li>
+            <li class="flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-3">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-envelope text-red-400 text-sm md:text-base"></i>
+                <p class="text-gray-600 text-xs md:text-sm text-center md:text-left break-all md:break-normal">
+                  TastyCrust@gmail.com</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-red-400">Follow Us</h4>
+          <div class="flex justify-center md:justify-start space-x-3 md:space-x-4">
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Facebook">
+              <i class="fab fa-facebook-f text-xl md:text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Instagram">
+              <i class="fab fa-instagram text-xl md:text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Twitter">
+              <i class="fab fa-twitter text-xl md:text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Tripadvisor">
+              <i class="fab fa-tripadvisor text-xl md:text-2xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 pt-6 md:pt-8 text-center text-gray-400 text-xs md:text-sm">
+        <p>&copy; 2025 Tasty Crust. All rights reserved. | Crafted with <i class="fas fa-heart text-red-600 mx-1"></i>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="notification-container" class="fixed top-24 right-4 z-60"></div>
+
+  <script>
+    // MENU DATA
+   // REVISED MENU DATA
+const menuItems = {
+  starters: [
+    { id: 101, name: "French Fries", description: "Crispy golden potato fries, seasoned to perfection.", price: 4.99, image: "https://plus.unsplash.com/premium_photo-1672498329467-b27e2a97d29b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZnJlbmNoJTIwZnJpZXN8ZW58MHx8MHx8fDA%3D" },
+    { id: 102, name: "Chicken Wings", description: "Tender chicken wings tossed in a spicy BBQ glaze.", price: 8.99, image: "https://plus.unsplash.com/premium_photo-1669742928112-19364a33b530?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpY2tlbnxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 103, name: "Spring Rolls", description: "Crispy vegetable spring rolls served with sweet chili sauce.", price: 6.99, image: "https://saltedmint.com/wp-content/uploads/2024/01/Vegetable-Spring-Rolls-4-500x375.jpg" },
+    { id: 104, name: "Garlic Bread", description: "Toasted Italian bread spread with rich garlic butter and herbs.", price: 5.99, image: "https://images.unsplash.com/photo-1573140401552-3fab0b24306f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z2FybGljJTIwYnJlYWQ8ZW58MHx8MHx8fDA%3D" },
+    { id: 105, name: "Seafood Pasta Dish", description: "A Shrimp spaghetti pasta with cherry tomatoes and fresh herbs, served in a light savory sauce.", price: 9.99, image: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    // Replaced 106, 107, 108, 109 (Small Chops) with new items
+    { id: 106, name: "Small Chops Platter", description: "Assorted Nigerian appetizers (puff puff, samosa, spring rolls).", price: 10.99, image: "https://pastryempire.com/wp-content/uploads/2021/06/Screenshot_20210614-1035312-600x592.png" },
+    { id: 107, name: "Mozzarella Sticks", description: "Deep-fried, gooey mozzarella sticks served with marinara sauce.", price: 7.50, image: "https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    { id: 108, name: "Hummus & Pita", description: "Creamy chickpea hummus with warm, soft pita bread.", price: 6.99, image: "https://images.unsplash.com/photo-1546039907-7fa05f864c02?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8SHVtbXVzJTIwJTI2JTIwUGl0YXxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 109, name: "Bruschetta", description: "Toasted bread topped with fresh tomato, basil, and balsamic glaze.", price: 8.99, image: "https://images.unsplash.com/photo-1630230596637-28f416b537ff?q=80&w=2055&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  ],
+  main_course: [
+    { id: 201, name: "Fried Rice & Chicken", description: "Fluffy rice stir-fried with mixed vegetables and a seasoned chicken thigh.", price: 14.99, image: "https://allnigerianfoods.com/wp-content/uploads/fried_rice_recipe-500x361.jpg" },
+    { id: 202, name: "Pasta Alfredo", description: "Fettuccine pasta in a rich, creamy parmesan cheese sauce.", price: 16.99, image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    { id: 203, name: "Grilled Beef Steak", description: "Nice tenderloin steak with red wine reduction.", price: 28.99, image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    { id: 204, name: "Gourmet Burger & Chips", description: "Classic Gourmet Burger with a side of crispy potato chips.", price: 12.99, image: "https://images.unsplash.com/photo-1576379392044-6d933410d374?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyJTIwYW5kJTIwY2hpcHN8ZW58MHx8MHx8fDA%3D" },
+    { id: 205, name: "Shawarma Plate", description: "Marinated meat slices served with a mix of rice, salad, and garlic sauce.", price: 15.99, image: "https://www.allrecipes.com/thmb/gErFllALd5ieWLGDOlN_S9uAsyU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/52407-chicken-shawarma-VAT-003-4x3-01-3189bab443d14bf282ffcc3b87bcf55a.jpg" },
+    // Replaced 206, 207, 208, 209 (Pounded Yam) with new items
+    { id: 206, name: "Pounded Yam & Egusi Soup", description: "Traditional Nigerian dish with velvety pounded yam and rich melon seed soup.", price: 18.99, image: "https://allnigerianfoods.com/wp-content/uploads/egusi_soup-1.jpg" },
+    { id: 207, name: "Chicken Fajitas", description: "Sizzling chicken strips with bell peppers and onions, served with tortillas.", price: 17.99, image: "https://images.unsplash.com/photo-1689774187968-0e6c29a1d82e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Q2hpY2tlbiUyMEZhaml0YXN8ZW58MHx8MHx8fDA%3D" },
+    { id: 208, name: "Fish and Chips", description: "Crispy battered cod fillet served with thick-cut fries and tartar sauce.", price: 14.50, image: "https://plus.unsplash.com/premium_photo-1694108747175-889fdc786003?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZmlzaCUyMGFuZCUyMGNoaXBzfGVufDB8fDB8fHww" },
+    { id: 209, name: "Vegetarian Curry", description: "Rich coconut milk-based curry with seasonal vegetables and basmati rice.", price: 13.99, image: "https://plus.unsplash.com/premium_photo-1712678664930-ef7051cd1b31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8VmVnZXRhcmlhbiUyMEN1cnJ5fGVufDB8fDB8fHww"},
+  ],
+  sides: [
+    { id: 301, name: "Coleslaw", description: "Crisp shredded cabbage and carrots in a creamy dressing.", price: 3.99, image: "https://plus.unsplash.com/premium_photo-1692781059226-cd75729787b6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y29sZXNsYXd8ZW58MHx8MHx8fDA%3D" },
+    { id: 302, name: "Fried Plantain (Dodo)", description: "Sweet, perfectly fried ripe plantain slices.", price: 4.99, image: "https://media.istockphoto.com/id/1349383732/photo/fried-caramelized-plantains-served-with-lime-wedges.webp?a=1&b=1&s=612x612&w=0&k=20&c=0BhEUFJ7Zsz_a1OCqlOQ9F-_Wen5xwG39o1NyFp3-Mo=" },
+    { id: 303, name: "Mashed Potatoes", description: "Smooth, buttery mashed potatoes, a perfect classic side.", price: 5.99, image: "https://plus.unsplash.com/premium_photo-1696835870634-e6484e8ed4d7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TWFzaGVkJTIwUG90YXRvZXN8ZW58MHx8MHx8fDA%3D" },
+    { id: 304, name: "Onion Rings", description: "Thick-cut, battered and deep-fried onion rings.", price: 4.99, image: "https://plus.unsplash.com/premium_photo-1683121324272-90f4b4084ac9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b25pb24lMjByaW5nc3xlbnwwfHwwfHx8MA%3D%3D" },
+    // Replaced 305, 306 (Bread Rolls) with new items
+    { id: 305, name: "Side Salad", description: "Mixed greens with cherry tomatoes, cucumber, and vinaigrette.", price: 4.50, image: "https://images.unsplash.com/photo-1764837534940-bb0185f68b7f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFNpZGUlMjBTYWxhZHxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 306, name: "Sweet Potato Fries", description: "Crispy sweet potato fries served with a garlic aioli.", price: 5.99, image: "https://plus.unsplash.com/premium_photo-1669742928112-19364a33b530?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpY2tlbnxlbnwwfHwwfHx8MA%3D%3D" },
+    // Replaced 307, 308, 309 (Potato Wedges) with new items
+    { id: 307, name: "Potato Wedges", description: "Thick, crispy potato wedges with a choice of dipping sauce.", price: 5.99, image: "https://images.unsplash.com/photo-1633959639799-6d3f66e05710?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG90YXRvJTIwd2VkZ2VzfGVufDB8fDB8fHww" },
+    { id: 308, name: "Steamed Vegetables", description: "Seasonal medley of broccoli, carrots, and green beans.", price: 3.99, image: "https://images.unsplash.com/photo-1592578630143-fac65cda7a67?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8U3RlYW1lZCUyMFZlZ2V0YWJsZXN8ZW58MHx8MHx8fDA%3D" },
+    { id: 309, name: "Breakfast Sausage (Side)", description: "Two savory grilled breakfast sausages.", price: 5.99, image: "https://plus.unsplash.com/premium_photo-1712322782021-775c765c8c8e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YnJlYWtmYXN0JTIwc2F1c2FnZXxlbnwwfHwwfHx8MA%3D%3D" },
+  ],
+  breakfast_brunch: [
+    { id: 401, name: "Pancakes", description: "Fluffy buttermilk pancakes with maple syrup and fresh berries.", price: 11.99, image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80" },
+    { id: 402, name: "Toast & Eggs", description: "Scrambled or fried eggs served with two slices of artisan toast.", price: 9.99, image: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-4.0.3&auto=format&fit=crop&w=1010&q=80" },
+    { id: 403, name: "Breakfast Burrito", description: "Scrambled eggs, black beans, cheese, and salsa in a flour tortilla.", price: 10.99, image: "https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    { id: 404, name: "Belgian Waffles", description: "Golden-brown Belgian waffles topped with powdered sugar and fruit.", price: 10.99, image: "https://plus.unsplash.com/premium_photo-1664478298438-360c93ff1e51?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2FmZmxlc3xlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 405, name: "Custom Omelette", description: "Three-egg omelette with your choice of three fillings.", price: 12.99, image: "https://plus.unsplash.com/premium_photo-1667807521536-bc35c8d8b64b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8b21lbGV0dGV8ZW58MHx8MHx8fDA%3D" },
+    // Removed duplicate item 406 named "peas"
+    // Replaced 407, 408, 409 (Breakfast Sausage) with new items
+    { id: 406, name: "Jollof Rice", description: "Smoky Nigerian Jollof Rice, a perfect flavorful side.", price: 6.99, image: "https://plus.unsplash.com/premium_photo-1694141252774-c937d97641da?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8am9sbG9mJTIwcmljZXxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 407, name: "Avocado Toast", description: "Smashed avocado on toasted sourdough with chili flakes and an egg.", price: 11.50, image: "https://images.unsplash.com/photo-1628556820645-63ba5f90e6a2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8QXZvY2FkbyUyMFRvYXN0fGVufDB8fDB8fHww" },
+    { id: 408, name: "Eggs Benedict", description: "Toasted English muffins topped with poached eggs, ham, and hollandaise.", price: 13.99, image: "https://images.unsplash.com/photo-1616866866413-0ee9e3f7fbd2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8RWdncyUyMEJlbmVkaWN0fGVufDB8fDB8fHww" },
+    { id: 409, name: "Yogurt Parfait", description: "Layered Greek yogurt, granola, and fresh fruit in a glass.", price: 8.50, image: "https://plus.unsplash.com/premium_photo-1692287214831-981df0786131?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fFlvZ3VydCUyMFBhcmZhaXR8ZW58MHx8MHx8fDA%3D" },
+  ],
+  desserts: [
+    { id: 501, name: "Ice Cream Scoop", description: "Two scoops of premium ice cream (vanilla, chocolate, or strawberry).", price: 5.99, image: "https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGljZSUyMGNyZWFtfGVufDB8fDB8fHww" },
+    { id: 502, name: "Classic Cheesecake", description: "Classic New York style cheesecake with a berry coulis.", price: 7.99, image: "https://plus.unsplash.com/premium_photo-1723651343962-75cd6cc5c308?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2hlZXNlY2FrZXxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 503, name: "Fudge Brownie Sundae", description: "Warm chocolate fudge brownie with a scoop of vanilla ice cream and sauce.", price: 6.99, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YnJvd25pZXxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 504, name: "Seasonal Fruit Salad", description: "A healthy mix of fresh, seasonal sliced fruit.", price: 5.99, image: "https://plus.unsplash.com/premium_photo-1664478279991-832059d65835?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZnJ1aXQlMjBzYWxhZHxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 505, name: "Glazed Doughnuts", description: "Two glazed doughnuts with a dusting of cinnamon sugar.", price: 4.99, image: "https://plus.unsplash.com/premium_photo-1670333242665-30b397067c37?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+    // Replaced 506, 507, 508, 509 (Milkshake) with new items
+    { id: 506, name: "Premium Milkshake", description: "Thick, creamy milkshake (chocolate, vanilla, or strawberry).", price: 6.99, image: "https://media.istockphoto.com/id/172192393/photo/milkshake-trio.webp?a=1&b=1&s=612x612&w=0&k=20&c=mh6GSqNWnPdVmo78R3TIX92Dj2Seus2e9scTG98ovEw=" },
+    { id: 507, name: "Tiramisu", description: "Classic Italian coffee-flavored dessert.", price: 8.50, image: "https://images.unsplash.com/photo-1710106519622-8c49d0bcff2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8VGlyYW1pc3V8ZW58MHx8MHx8fDA%3D" },
+    { id: 508, name: "Apple Crumble", description: "Warm spiced apple filling topped with a buttery crumble and custard.", price: 7.99, image: "https://images.unsplash.com/photo-1605698802040-b783f33b49a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8QXBwbGUlMjBDcnVtYmxlfGVufDB8fDB8fHww" },
+    { id: 509, name: "Chocolate Lava Cake", description: "Molten chocolate cake with a melting center, served with vanilla ice cream.", price: 9.99, image: "https://plus.unsplash.com/premium_photo-1716152282009-3ee413548e46?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Q2hvY29sYXRlJTIwTGF2YSUyMENha2V8ZW58MHx8MHx8fDA%3D" },
+  ],
+  drinks: [
+    { id: 601, name: "Soft Drinks (Can)", description: "A variety of chilled sodas and sparkling beverages.", price: 2.99, image: "https://images.unsplash.com/photo-1665359045452-bfa257a2a6bf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNvZnQlMjBkcmlua3N8ZW58MHx8MHx8fDA%3D" },
+    { id: 602, name: "Bottled Water", description: "Still or sparkling bottled water.", price: 1.99, image: "https://images.unsplash.com/photo-1563340605-4b8bfa223b32?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJvdHRsZWQlMjB3YXRlcnxlbnwwfHwwfHx8MA%3D%3D" },
+    { id: 603, name: "Fresh Juice", description: "Freshly squeezed orange, apple, or pineapple juice.", price: 4.99, image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    { id: 604, name: "Hot Tea Selection", description: "Selection of premium hot teas (English Breakfast, Green, Peppermint).", price: 3.99, image: "https://www.munatycooking.com/wp-content/uploads/2024/04/Three-glasses-filled-with-karak-chai.jpg" },
+    { id: 605, name: "Specialty Coffee", description: "Freshly brewed coffee or espresso-based drinks (Latte, Cappuccino, Americano).", price: 4.99, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    // Replaced 606, 607, 608, 609 (Smoothies) with new items
+    { id: 606, name: "Fruit Smoothies", description: "Blended fruit smoothies (Berry, Tropical, Green).", price: 6.99, image: "https://images.unsplash.com/photo-1502741224143-90386d7f8c82?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" },
+    { id: 607, name: "Iced Latte", description: "Espresso with chilled milk, served over ice.", price: 5.50, image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8SWNlZCUyMExhdHRlfGVufDB8fDB8fHww" },
+    { id: 608, name: "Hot Chocolate", description: "Rich, creamy hot chocolate topped with whipped cream.", price: 4.99, image: "https://images.unsplash.com/photo-1637572815755-c4b80092dce1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8SG90JTIwQ2hvY29sYXRlfGVufDB8fDB8fHww" },
+    { id: 609, name: "Lemonade", description: "Refreshing homemade lemonade, lightly sweetened.", price: 3.50, image: "https://images.unsplash.com/photo-1623084918757-56d74eb2c650?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fExlbW9uYWRlfGVufDB8fDB8fHww" },
+  ]
+};
+    // Shopping cart
+    let cart = [];
+
+    // DOM elements for menu page
+    const cartToggle = document.getElementById('cart-toggle');
+    const closeCart = document.getElementById('close-cart');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const cartCount = document.getElementById('cart-count');
+    const cartSubtotal = document.getElementById('cart-subtotal');
+    const cartTax = document.getElementById('cart-tax');
+    const cartTotal = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuTabs = document.querySelectorAll('.menu-tab');
+    const menuItemsContainer = document.getElementById('menu-items');
+    const notificationContainer = document.getElementById('notification-container');
+    const menuSearchInput = document.getElementById('menu-search');
+
+    let currentCategory = 'starters';
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function () {
+      // Load 'starters' menu by default
+      loadMenuItems();
+
+      // Update cart from localStorage if available
+      const savedCart = localStorage.getItem('tastyCrustCart');
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCartDisplay();
+      }
+
+      // Set up event listeners
+      setupEventListeners();
+    });
+
+    // Set up all event listeners
+    function setupEventListeners() {
+      // Cart toggle
+      cartToggle.addEventListener('click', toggleCart);
+      closeCart.addEventListener('click', closeCartSidebar);
+
+      // Mobile menu toggle
+      mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+      // Menu tabs
+      menuTabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+          currentCategory = this.getAttribute('data-category');
+
+          menuTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          menuSearchInput.value = '';
+
+          loadMenuItems();
+        });
+      });
+
+      // Menu search input
+      menuSearchInput.addEventListener('input', function () {
+        menuTabs.forEach(t => t.classList.remove('active'));
+
+        loadMenuItems(null, this.value);
+      });
+
+      // Checkout button
+      checkoutBtn.addEventListener('click', checkout);
+
+      // Close cart when clicking outside on mobile
+      document.addEventListener('click', function (event) {
+        if (window.innerWidth <= 768 &&
+          !cartSidebar.contains(event.target) &&
+          !cartToggle.contains(event.target) &&
+          cartSidebar.classList.contains('translate-x-0')) {
+          closeCartSidebar();
+        }
+      });
+    }
+
+    // Load menu items for a specific category
+    function loadMenuItems(categoryOverride = null, searchTerm = menuSearchInput.value) {
+      const categoryToLoad = categoryOverride || currentCategory;
+
+      let rawItems = [];
+      const lowerCaseSearch = searchTerm.toLowerCase().trim();
+
+      if (lowerCaseSearch !== '' || categoryOverride === null) {
+        for (const key in menuItems) {
+          if (menuItems.hasOwnProperty(key)) {
+            rawItems = rawItems.concat(menuItems[key]);
+          }
+        }
+      } else {
+        rawItems = menuItems[categoryToLoad] || menuItems['starters'];
+      }
+
+      menuItemsContainer.innerHTML = '';
+
+      let filteredItems = rawItems.filter(item => {
+        if (lowerCaseSearch === '') {
+          if (categoryOverride === null) {
+            for (const key in menuItems) {
+              if (menuItems[key].includes(item) && key !== categoryToLoad) {
+                return false;
+              }
+            }
+          }
+          return true;
+        }
+
+        const itemName = item.name.toLowerCase();
+        const itemDescription = item.description.toLowerCase();
+
+        return itemName.includes(lowerCaseSearch) || itemDescription.includes(lowerCaseSearch);
+      });
+
+      if (lowerCaseSearch === '' && categoryOverride === null) {
+        filteredItems = menuItems[categoryToLoad] || menuItems['starters'];
+      }
+
+      if (filteredItems.length === 0) {
+        const searchContext = lowerCaseSearch !== '' ? ` matching "${searchTerm}"` : '';
+        const browseContext = lowerCaseSearch !== '' ? `Try searching a different keyword or selecting a menu tab to browse.` : `There are no items in this category.`;
+        menuItemsContainer.innerHTML = `
+          <div class="col-span-full text-center py-10">
+            <p class="text-xl text-gray-500">No items found${searchContext}.</p>
+            <p class="text-gray-400">${browseContext}</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (lowerCaseSearch) {
+        const uniqueCategories = [];
+        const categoryDisplayMap = {
+          starters: 'Starters (Appetizers)',
+          main_course: 'Main Course',
+          sides: 'Sides',
+          breakfast_brunch: 'Breakfast & Brunch',
+          desserts: 'Desserts',
+          drinks: 'Drinks (Beverages)'
+        };
+
+        filteredItems.forEach(item => {
+          for (const catKey in menuItems) {
+            if (menuItems[catKey].some(i => i.id === item.id)) {
+              const displayName = categoryDisplayMap[catKey] || catKey;
+              if (!uniqueCategories.includes(displayName)) {
+                uniqueCategories.push(displayName);
+              }
+            }
+          }
+        });
+
+        if (uniqueCategories.length > 0) {
+          const infoMessage = document.createElement('div');
+          infoMessage.className = 'col-span-full text-center mb-6 py-2 border-b border-gray-200';
+          infoMessage.innerHTML = `<p class="text-md font-semibold text-gray-700">Results found in: <span class="text-red-600 font-bold">${uniqueCategories.join(', ')}</span></p>`;
+          menuItemsContainer.appendChild(infoMessage);
+        }
+      }
+
+      filteredItems.forEach(item => {
+        const menuItemElement = document.createElement('div');
+        menuItemElement.className = 'bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl';
+        menuItemElement.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="w-full h-56 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">${item.name}</h3>
+            <p class="text-gray-600 mb-4">${item.description}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-2xl font-bold text-red-600">$${item.price.toFixed(2)}</span>
+              <button class="add-to-cart-menu bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition duration-300" 
+                      data-name="${item.name}" data-price="${item.price}">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        `;
+
+        menuItemsContainer.appendChild(menuItemElement);
+      });
+
+      document.querySelectorAll('.add-to-cart-menu').forEach(button => {
+        button.addEventListener('click', function () {
+          const name = this.getAttribute('data-name');
+          const price = parseFloat(this.getAttribute('data-price'));
+          addToCart(name, price);
+        });
+      });
+    }
+
+    // Add item to cart
+    function addToCart(name, price) {
+      const existingItem = cart.find(item => item.name === name);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          name: name,
+          price: price,
+          quantity: 1
+        });
+      }
+
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+
+      if (window.innerWidth <= 768) {
+        openCartSidebar();
+      }
+
+      showNotification(`${name} added to cart!`);
+    }
+
+    // Remove item from cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+    }
+
+    // Update quantity of item in cart
+    function updateQuantity(index, newQuantity) {
+      if (newQuantity < 1) {
+        removeFromCart(index);
+        return;
+      }
+
+      cart[index].quantity = newQuantity;
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+      cartItemsContainer.innerHTML = '';
+      let subtotal = 0;
+
+      if (cart.length === 0) {
+        cartItemsContainer.appendChild(emptyCartMessage);
+        checkoutBtn.disabled = true;
+      } else {
+        emptyCartMessage.remove();
+        checkoutBtn.disabled = false;
+
+        cart.forEach((item, index) => {
+          const itemTotal = item.price * item.quantity;
+          subtotal += itemTotal;
+
+          const cartItemElement = document.createElement('div');
+          cartItemElement.className = 'cart-item flex items-center justify-between py-4 border-b border-gray-200';
+          cartItemElement.innerHTML = `
+            <div class="flex-1">
+              <h4 class="font-bold text-gray-800">${item.name}</h4>
+              <p class="text-gray-600">$${item.price.toFixed(2)} each</p>
+            </div>
+            <div class="flex items-center">
+              <button class="decrease-quantity text-gray-500 hover:text-red-600 mr-2" data-index="${index}">
+                <i class="fas fa-minus text-sm"></i>
+              </button>
+              <span class="quantity mx-2 font-bold">${item.quantity}</span>
+              <button class="increase-quantity text-gray-500 hover:text-red-600 ml-2" data-index="${index}">
+                <i class="fas fa-plus text-sm"></i>
+              </button>
+              <span class="ml-4 font-bold text-gray-800">$${itemTotal.toFixed(2)}</span>
+              <button class="remove-item text-red-500 hover:text-red-700 ml-4" data-index="${index}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          `;
+
+          cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+          button.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            updateQuantity(index, cart[index].quantity - 1);
+          });
+        });
+
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+          button.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            updateQuantity(index, cart[index].quantity + 1);
+          });
+        });
+
+        document.querySelectorAll('.remove-item').forEach(button => {
+          button.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            removeFromCart(index);
+          });
+        });
+      }
+
+      const tax = subtotal * 0.10;
+      const total = subtotal + tax;
+
+      cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+      cartTax.textContent = `$${tax.toFixed(2)}`;
+      cartTotal.textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Toggle cart sidebar
+    function toggleCart() {
+      if (cartSidebar.classList.contains('translate-x-full')) {
+        openCartSidebar();
+      } else {
+        closeCartSidebar();
+      }
+    }
+
+    // Open cart sidebar
+    function openCartSidebar() {
+      cartSidebar.classList.remove('translate-x-full');
+      cartSidebar.classList.add('translate-x-0');
+    }
+
+    // Close cart sidebar
+    function closeCartSidebar() {
+      cartSidebar.classList.remove('translate-x-0');
+      cartSidebar.classList.add('translate-x-full');
+    }
+
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('hidden');
+    }
+
+    // Checkout function
+    function checkout() {
+      if (cart.length === 0) return;
+
+      alert(`Thank you for your order! Your total is $${cartTotal.textContent.replace('$', '')}.\n`);
+
+      cart = [];
+      updateCartDisplay();
+      localStorage.removeItem('tastyCrustCart');
+      closeCartSidebar();
+    }
+
+    // Show notification
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.className = 'bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl animate-slideInRight flex items-center gap-3 mb-2';
+      notification.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        ${message}
+      `;
+
+      notificationContainer.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100px)';
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+  </script>
+</body>
+
+</html>

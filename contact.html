@@ -5,9 +5,11 @@
   <link rel="icon" type="image/svg+xml" href="tasty.png" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tasty Crust Restaurant | Home</title>
+  <title>Tasty Crust Restaurant | Contact Us</title>
   <link href="./output.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Add Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
     .menu-tab {
@@ -25,7 +27,24 @@
       color: #ffffff;
     }
 
-  
+    #map {
+      min-height: 400px;
+      border-radius: 12px;
+      z-index: 1;
+    }
+
+    /* Fix for Leaflet map container */
+    .leaflet-container {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+
+    /* Custom marker style */
+    .restaurant-marker {
+      background: transparent;
+      border: none;
+    }
   </style>
 </head>
 
@@ -38,11 +57,11 @@
       </a>
 
       <div class="hidden md:flex space-x-8">
-        <a href="index.html" class="text-gray-700 hover:text-red-600 font-medium active-nav">Home</a>
+        <a href="index.html" class="text-gray-700 hover:text-red-600 font-medium">Home</a>
         <a href="menu.html" class="text-gray-700 hover:text-red-600 font-medium">Menu</a>
         <a href="about.html" class="text-gray-700 hover:text-red-600 font-medium">About</a>
         <a href="book.html" class="text-gray-700 hover:text-red-600 font-medium">Book Your Table</a>
-        <a href="contact.html" class="text-gray-700 hover:text-red-600 font-medium">Contact</a>
+        <a href="contact.html" class="text-gray-700 hover:text-red-600 font-medium active-nav">Contact</a>
       </div>
 
       <div class="flex items-center space-x-4">
@@ -104,93 +123,119 @@
     </div>
   </div>
 
-  <section id="hero-carousel" class="relative h-[600px] w-full overflow-hidden text-white">
-    <div id="hero-slides-container">
-    </div>
-
-    <div class="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-      <h1 id="hero-heading" class="text-4xl md:text-6xl font-bold mb-6 animate-fadeInDown">
-        Savor the Flavor
-      </h1>
-      <p id="hero-subheading" class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto animate-fadeInUp-500">
-        Experience culinary excellence with our chef-crafted dishes made from the freshest ingredients.
-      </p>
-      <a href="#featured-dishes"
-        class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300 transform hover:scale-105 shadow-lg animate-fadeInUp-800">
-        Order Now
-      </a>
-    </div>
-
-    <div id="carousel-indicators" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex space-x-3">
-    </div>
-  </section>
-
-  <section id="featured-dishes" class="py-16 bg-white">
+  <section id="contact" class="py-16 bg-[url(bgi.png)]">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Featured Dishes</h2>
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Contact Us</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div
-          class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
-          <img
-            src="https://media.istockphoto.com/id/2232322550/photo/volcano-smash-burger-with-molten-cheddar-and-crispy-bacon.webp?a=1&b=1&s=612x612&w=0&k=20&c=wOt3ZwRzTnwAB0ukeDClt1NQAskvF7br1nQgb5ckNO4="
-            alt="Gourmet Burger" class="w-full h-56 object-cover">
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Gourmet Burger</h3>
-            <p class="text-gray-600 mb-4">Juicy beef patty with fresh lettuce, tomatoes, and special sauce.
-            </p>
-            <div class="flex justify-between items-center">
-              <span class="text-2xl font-bold text-red-600">$12.99</span>
-              <button
-                class="add-to-cart bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition duration-300"
-                data-name="Gourmet Burger" data-price="12.99">
-                Add to Cart
-              </button>
-            </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="bg-white p-8 rounded-xl shadow-md text-center">
+          <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-map-marker-alt text-2xl"></i>
           </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Address</h3>
+          <p class="text-gray-600">123 New way Road, Liverpool, L1 8JQ</p>
         </div>
 
-        <div
-          class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1643644598156-858b6d62405b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8VHJ1ZmZsZSUyMFBhc3RhfGVufDB8fDB8fHww"
-            alt="Truffle Pasta" class="w-full h-56 object-cover">
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Truffle Pasta</h3>
-            <p class="text-gray-600 mb-4">Creamy pasta with black truffle, mushrooms, and parmesan cheese.
-            </p>
-            <div class="flex justify-between items-center">
-              <span class="text-2xl font-bold text-red-600">$16.99</span>
-              <button
-                class="add-to-cart bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition duration-300"
-                data-name="Truffle Pasta" data-price="16.99">
-                Add to Cart
-              </button>
-            </div>
+        <div class="bg-white p-8 rounded-xl shadow-md text-center">
+          <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-clock text-2xl"></i>
           </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Hours</h3>
+          <p class="text-gray-600">7:30AM - 10:00PM</p>
+        </div>
+        <div class="bg-white p-8 rounded-xl shadow-md text-center">
+          <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-phone-alt text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Phone</h3>
+          <p class="text-gray-600">(+44) 987 654 3210</p>
         </div>
 
-        <div
-          class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1677653805080-59c57727c84e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fFJhaW5ib3clMjBTYWxhZHxlbnwwfHwwfHx8MA%3D%3D"
-            alt="Rainbow Salad" class="w-full h-56 object-cover">
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-2">Rainbow Salad</h3>
-            <p class="text-gray-600 mb-4">Fresh mixed greens with seasonal vegetables and balsamic dressing.
-            </p>
-            <div class="flex justify-between items-center">
-              <span class="text-2xl font-bold text-red-600">$10.99</span>
-              <button
-                class="add-to-cart bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition duration-300"
-                data-name="Rainbow Salad" data-price="10.99">
-                Add to Cart
-              </button>
-            </div>
+        <div class="bg-white p-8 rounded-xl shadow-md text-center">
+          <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-envelope text-2xl"></i>
           </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Email</h3>
+          <p class="text-gray-600">TastyCrust@gmail.com</p>
         </div>
       </div>
+
+      <!-- Interactive Map Section -->
+      <section class="py-16 ">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Visit Our Restaurant</h2>
+
+          <div class="max-w-6xl mx-auto">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+              <div id="map" class="w-full h-96 rounded-lg"></div>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="text-center">
+                <div
+                  class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-car text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Parking Available</h3>
+                <p class="text-gray-600">Free parking for customers</p>
+              </div>
+              <div class="text-center">
+                <div
+                  class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-wheelchair text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Accessible</h3>
+                <p class="text-gray-600">Wheelchair accessible entrance</p>
+              </div>
+              <div class="text-center">
+                <div
+                  class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-wifi text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Free WiFi</h3>
+                <p class="text-gray-600">High-speed internet available</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="max-w-3xl mx-auto mt-16 bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-red-200">
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">Send Us a Message</h3>
+        <form id="contact-form" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+              <input type="text" id="contact-name" name="contact-name" placeholder="Your Full Name" required
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150">
+            </div>
+            <div>
+              <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <input type="email" id="contact-email" name="contact-email" placeholder="you@example.com" required
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150">
+            </div>
+          </div>
+
+          <div>
+            <label for="contact-subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+            <input type="text" id="contact-subject" name="contact-subject" placeholder="How can we help you?" required
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150">
+          </div>
+
+          <div>
+            <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+            <textarea id="contact-message" name="contact-message" rows="5" required
+              class="w-full p-3 border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150"
+              placeholder="Please write your message here..."></textarea>
+          </div>
+
+          <button type="submit"
+            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg text-lg transition duration-300 transform hover:scale-[1.01] shadow-md">
+            Send Message
+          </button>
+        </form>
+      </div>
     </div>
+
   </section>
 
   <footer class="foot text-black py-8 md:py-12">
@@ -277,36 +322,141 @@
   </footer>
 
   <div id="notification-container" class="fixed top-24 right-4 z-60"></div>
-
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // HERO CAROUSEL CONFIGURATION
-    const HERO_IMAGES = [
-      {
-        url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-        heading: 'Welcome to Tasty Crust',
-        subheading: 'Experience culinary excellence with our chef-crafted dishes made from the freshest ingredients.'
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1171&q=80',
-        heading: 'Reserve Your Table Now',
-        subheading: 'A perfect ambiance for every occasion, from intimate dinners to large celebrations.'
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-        heading: 'Gourmet Dining Experience',
-        subheading: 'Explore our carefully curated menu, featuring modern twists on classic favorites.'
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-        heading: 'Order Online & Enjoy',
-        subheading: 'Get your favorite dishes delivered fast and fresh right to your doorstep.'
-      }
-    ];
+    // Initialize interactive map
+    // Initialize interactive map
+    // function initMap() {
+    //   // CHANGED LOCATION: Now showing London, UK instead of New York
+    //   const restaurantLocation = [53.4084, -2.9916]; // Liverpool coordinates
 
+    //   // Create completely static map
+    //   const map = L.map('map', {
+    //     center: restaurantLocation,
+    //     zoom: 16,
+    //     // Disable ALL interactions
+    //     // dragging: false,
+    //     // touchZoom: false,
+    //     // scrollWheelZoom: false,
+    //     // doubleClickZoom: false,
+    //     // boxZoom: false,
+    //     // keyboard: false,
+    //     // zoomControl: false,
+    //     // tap: false,
+    //     // attributionControl: false,
+    //     // Additional options for complete staticness
+    //     // closePopupOnClick: false,
+    //     // bounceAtZoomLimits: false
+    //   });
+
+    //   // Disable ALL events on the map container
+    //   const mapContainer = map.getContainer();
+    //   mapContainer.style.pointerEvents = 'none'; // This prevents any clicks on the map
+
+    //   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '© OpenStreetMap contributors',
+    //     maxZoom: 19
+    //   }).addTo(map);
+
+    //   // Custom marker icon
+    //   const restaurantIcon = L.divIcon({
+    //     html: '<div class="text-red-600 text-4xl"><i class="fas fa-map-marker-alt"></i></div>',
+    //     iconSize: [50, 50],
+    //     iconAnchor: [25, 50],
+    //     popupAnchor: [0, -40],
+    //     className: 'restaurant-marker'
+    //   });
+
+    //   const marker = L.marker(restaurantLocation, { icon: restaurantIcon })
+    //     .addTo(map)
+    //     .bindPopup(`
+    //   <div class="p-3 max-w-xs">
+    //     <h3 class="font-bold text-lg text-red-600 mb-2 flex items-center">
+    //       <img src="tasty.png" alt="Tasty Crust Logo" class="w-10 h-10">
+    //     <span class="text-2xl font-bold text-red-600">Tasty Crust</span>
+    //     </h3>
+    //     <p class="text-gray-700 mb-2"><i class="fas fa-map-marker-alt mr-2 text-red-500"></i>123 New way Road, Liverpool City Centre, L1 8JQ</p>
+    //     <p class="text-green-600 mb-2"><i class="fas fa-clock mr-2"></i><strong>Hours:</strong> 7:30AM - 10:00PM Daily</p>
+    //     <p class="text-blue-600 mb-3"><i class="fas fa-phone mr-2"></i><strong>Phone:</strong>(+44) 987 654 3210</p>
+    //     <div class="border-t pt-2 mt-2">
+    //       <p class="text-sm text-gray-600 mb-2"><i class="fas fa-subway mr-2"></i>Near Liverpool Central Station</p>
+    //       <p class="text-sm text-gray-600"><i class="fas fa-water mr-2"></i>Short walk to New Way Road</p>
+    //     </div>
+    //   </div>
+    // `, {
+    //       autoClose: false, // Keep popup always open
+    //       closeOnClick: false // Don't close on click
+    //     })
+    //     .openPopup();
+
+    //   // Lock the view completely
+    //   setTimeout(() => {
+    //     map.invalidateSize(); // Ensure proper rendering
+    //   }, 100);
+    // }
+
+    function initMap() {
+  // Liverpool coordinates
+  const restaurantLocation = [53.4084, -2.9916];
+
+  // Create map with lower zoom level (more zoomed out)
+  const map = L.map('map', {
+    center: restaurantLocation,
+    zoom: 14, // Changed from 16 to 14 for more zoomed out view
+    // Keep your interaction settings here...
+    // dragging: false,
+    // etc...
+  });
+
+  // Rest of your map initialization code remains the same...
+  const mapContainer = map.getContainer();
+  mapContainer.style.pointerEvents = 'none';
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Custom marker icon
+  const restaurantIcon = L.divIcon({
+    html: '<div class="text-red-600 text-4xl"><i class="fas fa-map-marker-alt"></i></div>',
+    iconSize: [50, 50],
+    iconAnchor: [25, 50],
+    popupAnchor: [0, -40],
+    className: 'restaurant-marker'
+  });
+
+  const marker = L.marker(restaurantLocation, { icon: restaurantIcon })
+    .addTo(map)
+    .bindPopup(`
+      <div class="p-3 max-w-xs">
+        <h3 class="font-bold text-lg text-red-600 mb-2 flex items-center">
+          <img src="tasty.png" alt="Tasty Crust Logo" class="w-10 h-10">
+          <span class="text-2xl font-bold text-red-600 ml-2">Tasty Crust</span>
+        </h3>
+        <p class="text-gray-700 mb-2"><i class="fas fa-map-marker-alt mr-2 text-red-500"></i>123 New way Road, Liverpool City Centre, L1 8JQ</p>
+        <p class="text-green-600 mb-2"><i class="fas fa-clock mr-2"></i><strong>Hours:</strong> 7:30AM - 10:00PM Daily</p>
+        <p class="text-blue-600 mb-3"><i class="fas fa-phone mr-2"></i><strong>Phone:</strong>(+44) 987 654 3210</p>
+        <div class="border-t pt-2 mt-2">
+          <p class="text-sm text-gray-600 mb-2"><i class="fas fa-subway mr-2"></i>Near Liverpool Central Station</p>
+          <p class="text-sm text-gray-600"><i class="fas fa-water mr-2"></i>Short walk to New Way Road</p>
+        </div>
+      </div>
+    `, {
+      autoClose: false,
+      closeOnClick: false
+    })
+    .openPopup();
+
+  // Lock the view completely
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 100);
+}
     // Shopping cart
     let cart = [];
 
-    // DOM elements for home page
+    // DOM elements for contact page
     const cartToggle = document.getElementById('cart-toggle');
     const closeCart = document.getElementById('close-cart');
     const cartSidebar = document.getElementById('cart-sidebar');
@@ -319,22 +469,11 @@
     const checkoutBtn = document.getElementById('checkout-btn');
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    const heroSlidesContainer = document.getElementById('hero-slides-container');
-    const carouselIndicators = document.getElementById('carousel-indicators');
     const notificationContainer = document.getElementById('notification-container');
-    const heroHeading = document.getElementById('hero-heading');
-    const heroSubheading = document.getElementById('hero-subheading');
-
-    // Hero Carousel State
-    let currentSlideIndex = 0;
-    let carouselInterval;
+    const contactForm = document.getElementById('contact-form');
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', function () {
-      // Initialize hero carousel
-      initializeHeroCarousel();
-
       // Update cart from localStorage if available
       const savedCart = localStorage.getItem('tastyCrustCart');
       if (savedCart) {
@@ -342,93 +481,12 @@
         updateCartDisplay();
       }
 
+      // Initialize the map
+      initMap();
+
       // Set up event listeners
       setupEventListeners();
     });
-
-    // Initialize Hero Carousel
-    function initializeHeroCarousel() {
-      // Create slides
-      HERO_IMAGES.forEach((slideData, index) => {
-        const slide = document.createElement('div');
-        slide.className = `hero-slide absolute inset-0 w-full h-full ${index === 0 ? 'active' : 'inactive'}`;
-        slide.innerHTML = `
-          <div class="absolute inset-0 bg-black/60 z-10"></div>
-          <img src="${slideData.url}" alt="Slide ${index + 1}" class="w-full h-full object-cover">
-        `;
-        heroSlidesContainer.appendChild(slide);
-      });
-
-      // Create indicators
-      HERO_IMAGES.forEach((_, index) => {
-        const indicator = document.createElement('button');
-        indicator.className = `w-3 h-3 rounded-full transition-all duration-300 ${index === 0 ? 'bg-red-600 w-8' : 'bg-white/50 hover:bg-white'}`;
-        indicator.setAttribute('aria-label', `Go to slide ${index + 1}`);
-        indicator.addEventListener('click', () => goToSlide(index));
-        carouselIndicators.appendChild(indicator);
-      });
-
-      // Set initial text
-      updateHeroText(0);
-
-      // Start auto-rotation
-      startCarousel();
-    }
-
-    // Update Hero Text
-    function updateHeroText(index) {
-      const slideData = HERO_IMAGES[index];
-
-      heroHeading.classList.add('animate-fadeInDown');
-      heroSubheading.classList.add('animate-fadeInUp-500');
-
-      heroHeading.textContent = slideData.heading;
-      heroSubheading.textContent = slideData.subheading;
-
-      setTimeout(() => {
-        heroHeading.classList.remove('animate-fadeInDown');
-        heroSubheading.classList.remove('animate-fadeInUp-500');
-      }, 1000);
-    }
-
-    // Start carousel auto-rotation
-    function startCarousel() {
-      carouselInterval = setInterval(() => {
-        goToSlide((currentSlideIndex + 1) % HERO_IMAGES.length);
-      }, 5000);
-    }
-
-    // Go to specific slide
-    function goToSlide(index) {
-      currentSlideIndex = index;
-
-      const slides = document.querySelectorAll('.hero-slide');
-      slides.forEach((slide, i) => {
-        if (i === index) {
-          slide.classList.remove('inactive');
-          slide.classList.add('active');
-        } else {
-          slide.classList.remove('active');
-          slide.classList.add('inactive');
-        }
-      });
-
-      const indicators = carouselIndicators.querySelectorAll('button');
-      indicators.forEach((indicator, i) => {
-        if (i === index) {
-          indicator.classList.add('bg-red-600', 'w-8');
-          indicator.classList.remove('bg-white/50');
-        } else {
-          indicator.classList.remove('bg-red-600', 'w-8');
-          indicator.classList.add('bg-white/50');
-        }
-      });
-
-      updateHeroText(index);
-
-      clearInterval(carouselInterval);
-      startCarousel();
-    }
 
     // Set up all event listeners
     function setupEventListeners() {
@@ -439,14 +497,13 @@
       // Mobile menu toggle
       mobileMenuToggle.addEventListener('click', toggleMobileMenu);
 
-      // Add to cart buttons in featured section
-      addToCartButtons.forEach(button => {
-        button.addEventListener('click', function () {
-          const name = this.getAttribute('data-name');
-          const price = parseFloat(this.getAttribute('data-price'));
-          addToCart(name, price);
+      // Contact form
+      if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          handleContactSubmit(e.target);
         });
-      });
+      }
 
       // Checkout button
       checkoutBtn.addEventListener('click', checkout);
@@ -462,47 +519,22 @@
       });
     }
 
-    // Add item to cart
-    function addToCart(name, price) {
-      const existingItem = cart.find(item => item.name === name);
+    // Handle Contact Form Submission
+    function handleContactSubmit(form) {
+      const formData = {
+        name: form.querySelector('#contact-name').value,
+        email: form.querySelector('#contact-email').value,
+        subject: form.querySelector('#contact-subject').value,
+        message: form.querySelector('#contact-message').value,
+      };
 
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        cart.push({
-          name: name,
-          price: price,
-          quantity: 1
-        });
-      }
+      console.log('Contact Form Data:', formData);
 
-      updateCartDisplay();
-      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+      const contactMessage = `Thank you ${formData.name}! Your message has been sent. We'll get back to you soon.`;
 
-      if (window.innerWidth <= 768) {
-        openCartSidebar();
-      }
+      showNotification(contactMessage, 'envelope');
 
-      showNotification(`${name} added to cart!`);
-    }
-
-    // Remove item from cart
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCartDisplay();
-      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
-    }
-
-    // Update quantity of item in cart
-    function updateQuantity(index, newQuantity) {
-      if (newQuantity < 1) {
-        removeFromCart(index);
-        return;
-      }
-
-      cart[index].quantity = newQuantity;
-      updateCartDisplay();
-      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+      form.reset();
     }
 
     // Update cart display
@@ -577,6 +609,25 @@
       cartTotal.textContent = `$${total.toFixed(2)}`;
     }
 
+    // Remove item from cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+    }
+
+    // Update quantity of item in cart
+    function updateQuantity(index, newQuantity) {
+      if (newQuantity < 1) {
+        removeFromCart(index);
+        return;
+      }
+
+      cart[index].quantity = newQuantity;
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+    }
+
     // Toggle cart sidebar
     function toggleCart() {
       if (cartSidebar.classList.contains('translate-x-full')) {
@@ -616,11 +667,11 @@
     }
 
     // Show notification
-    function showNotification(message) {
+    function showNotification(message, iconName = 'check-circle') {
       const notification = document.createElement('div');
       notification.className = 'bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl animate-slideInRight flex items-center gap-3 mb-2';
       notification.innerHTML = `
-        <i class="fas fa-check-circle"></i>
+        <i class="fas fa-${iconName}"></i>
         ${message}
       `;
 

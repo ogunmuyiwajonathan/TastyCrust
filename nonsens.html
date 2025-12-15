@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="icon" type="image/svg+xml" href="tasty.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasty Crust Restaurant | About Us</title>
+  <link href="./output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    .menu-tab {
+      background-color: #ffffff;
+      color: #4b5563;
+    }
+
+    .menu-tab:hover {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+
+    .menu-tab.active {
+      background-color: #dc2626;
+      color: #ffffff;
+    }
+
+    /* Dark mode styles */
+    .dark-mode {
+      background-color: #1a202c;
+      color: #e2e8f0;
+    }
+
+    .dark-mode .bg-white {
+      background-color: #2d3748;
+    }
+
+    .dark-mode .bg-gray-50 {
+      background-color: #2d3748;
+    }
+
+    .dark-mode .bg-red-50 {
+      background-color: #742a2a;
+    }
+
+    .dark-mode .text-gray-800 {
+      color: #e2e8f0;
+    }
+
+    .dark-mode .text-gray-600 {
+      color: #a0aec0;
+    }
+
+    .dark-mode .border-gray-200 {
+      border-color: #4a5568;
+    }
+
+    .dark-mode .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Accessibility */
+    .skip-to-content {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #dc2626;
+      color: white;
+      padding: 8px;
+      z-index: 100;
+    }
+
+    .skip-to-content:focus {
+      top: 0;
+    }
+
+    /* Map container */
+    #map {
+      min-height: 400px;
+      border-radius: 12px;
+      z-index: 1;
+    }
+
+    /* Team member hover effect */
+    .team-member {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .team-member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Counter animation */
+    .counter {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      transition: width 1s ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Skip to Content Link -->
+  <a href="#main-content" class="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-red-600 text-white p-2 z-50">
+    Skip to main content
+  </a>
+
+  <nav class="nav shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="logo flex items-center space-x-2">
+        <img src="tasty.png" alt="Tasty Crust Logo" class="w-10 h-10">
+        <span class="text-2xl font-bold text-red-600">Tasty Crust</span>
+      </a>
+
+      <div class="hidden md:flex space-x-8">
+        <a href="index.html" class="text-gray-700 hover:text-red-600 font-medium">Home</a>
+        <a href="menu.html" class="text-gray-700 hover:text-red-600 font-medium">Menu</a>
+        <a href="about.html" class="text-gray-700 hover:text-red-600 font-medium">About</a>
+        <a href="contact.html" class="text-gray-700 hover:text-red-600 font-medium">Contact</a>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <!-- Dark Mode Toggle -->
+        <button id="dark-mode-toggle" class="text-gray-700 hover:text-red-600" aria-label="Toggle dark mode">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <button id="cart-toggle" class="relative text-gray-700 hover:text-red-600" 
+                aria-label="Shopping Cart" aria-expanded="false" aria-controls="cart-sidebar">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span id="cart-count"
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+            aria-live="polite">0</span>
+        </button>
+
+        <button id="mobile-menu-toggle" class="md:hidden text-gray-700" aria-label="Toggle mobile menu">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden bg-white px-4 py-2 hidden">
+      <a href="index.html" class="block py-2 text-gray-700 hover:text-red-600">Home</a>
+      <a href="menu.html" class="block py-2 text-gray-700 hover:text-red-600">Menu</a>
+      <a href="about.html" class="block py-2 text-gray-700 hover:text-red-600">About</a>
+      <a href="contact.html" class="block py-2 text-gray-700 hover:text-red-600">Contact</a>
+    </div>
+  </nav>
+
+  <div id="cart-sidebar"
+    class="transition duration-400 ease-in-out fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-xl z-50 overflow-y-auto transform translate-x-full">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Your Cart</h2>
+        <button id="close-cart" class="text-gray-500 hover:text-red-600" aria-label="Close cart">
+          <i class="fas fa-times text-2xl"></i>
+        </button>
+      </div>
+
+      <div id="cart-items" class="mb-6">
+        <p id="empty-cart-message" class="text-gray-500 text-center py-8">Your cart is empty. Add some delicious
+          items!</p>
+      </div>
+
+      <div class="border-t pt-4">
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-700">Subtotal</span>
+          <span id="cart-subtotal" class="font-bold">$0.00</span>
+        </div>
+        <div class="flex justify-between mb-4">
+          <span class="text-gray-700">Tax (10%)</span>
+          <span id="cart-tax" class="font-bold">$0.00</span>
+        </div>
+        <div class="flex justify-between text-xl font-bold mb-6">
+          <span>Total</span>
+          <span id="cart-total">$0.00</span>
+        </div>
+        <button id="checkout-btn"
+          class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled>
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <!-- Stats/Counter Section -->
+    <section class="py-12 bg-gray-800 text-white">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div class="text-4xl md:text-5xl font-bold text-red-400 mb-2 counter" id="happy-customers">0</div>
+            <p class="text-gray-300">Happy Customers</p>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-bold text-red-400 mb-2 counter" id="dishes-served">0</div>
+            <p class="text-gray-300">Dishes Served</p>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-bold text-red-400 mb-2 counter" id="years-experience">0</div>
+            <p class="text-gray-300">Years Experience</p>
+          </div>
+          <div>
+            <div class="text-4xl md:text-5xl font-bold text-red-400 mb-2 counter" id="chef-awards">0</div>
+            <p class="text-gray-300">Chef Awards</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="about" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+          <div style="max-width: 500px;" class="md:w-1/2 mb-10 md:mb-0">
+            <img src="https://i.postimg.cc/XNKBHkt9/crust.png" alt="Restaurant Interior"
+              class="rounded-xl shadow-lg w-full h-auto">
+          </div>
+          <div class="md:w-1/2 md:pl-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Story</h2>
+            <p class="text-gray-600 mb-4">Founded in 2010, Tasty Crust has been serving the community with
+              passion and dedication to culinary excellence. Our mission is to provide an unforgettable dining
+              experience through innovative dishes made with locally sourced ingredients.</p>
+            <p class="text-gray-600 mb-6">Our chefs combine traditional cooking techniques with modern flavors
+              to create a menu that delights all senses. Whether you're joining us for a quick lunch or a
+              celebratory dinner, we promise an exceptional experience.</p>
+            
+            <!-- Skills/Progress Bars -->
+            <div class="mb-8">
+              <h3 class="text-xl font-bold text-gray-800 mb-4">Our Culinary Expertise</h3>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="text-gray-700">Traditional Techniques</span>
+                    <span class="text-red-600 font-bold" id="traditional-percent">95%</span>
+                  </div>
+                  <div class="progress-bar bg-gray-200">
+                    <div id="traditional-progress" class="progress-fill bg-red-600" style="width: 95%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="text-gray-700">Modern Innovation</span>
+                    <span class="text-red-600 font-bold" id="innovation-percent">90%</span>
+                  </div>
+                  <div class="progress-bar bg-gray-200">
+                    <div id="innovation-progress" class="progress-fill bg-red-600" style="width: 90%"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="text-gray-700">Customer Satisfaction</span>
+                    <span class="text-red-600 font-bold" id="satisfaction-percent">98%</span>
+                  </div>
+                  <div class="progress-bar bg-gray-200">
+                    <div id="satisfaction-progress" class="progress-fill bg-red-600" style="width: 98%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex space-x-4">
+              <a href="contact.html"
+                class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+                Visit Us
+              </a>
+              <button id="view-menu-btn"
+                class="inline-block border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+                View Our Menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meet Our Team Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Team</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center team-member">
+            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" 
+                 alt="Head Chef" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Chef Marco</h3>
+              <p class="text-red-600 font-semibold mb-3">Head Chef</p>
+              <p class="text-gray-600 mb-4">15+ years of culinary experience with 3 Michelin stars under his belt.</p>
+              <div class="flex justify-center space-x-4">
+                <a href="#" class="text-gray-600 hover:text-red-600" aria-label="Chef Marco Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-red-600" aria-label="Chef Marco Twitter">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center team-member">
+            <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" 
+                 alt="Pastry Chef" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Isabella</h3>
+              <p class="text-red-600 font-semibold mb-3">Pastry Chef</p>
+              <p class="text-gray-600 mb-4">Trained in Paris, creates exquisite desserts that are both beautiful and delicious.</p>
+              <div class="flex justify-center space-x-4">
+                <a href="#" class="text-gray-600 hover:text-red-600" aria-label="Isabella Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-red-600" aria-label="Isabella Twitter">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden text-center team-member">
+            <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" 
+                 alt="Restaurant Manager" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2">David</h3>
+              <p class="text-red-600 font-semibold mb-3">Restaurant Manager</p>
+              <p class="text-gray-600 mb-4">Ensures every guest has a memorable experience from start to finish.</p>
+              <div class="flex justify-center space-x-4">
+                <a href="#" class="text-gray-600 hover:text-red-600" aria-label="David Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-600 hover:text-red-600" aria-label="David Twitter">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Stats -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="text-3xl font-bold text-red-600 mb-2">15+</div>
+            <p class="text-gray-600">Team Members</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="text-3xl font-bold text-red-600 mb-2">50+</div>
+            <p class="text-gray-600">Combined Experience</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="text-3xl font-bold text-red-600 mb-2">10+</div>
+            <p class="text-gray-600">Nationalities</p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="text-3xl font-bold text-red-600 mb-2">100+</div>
+            <p class="text-gray-600">Training Hours/Year</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Visit Our Restaurant</h2>
+        
+        <div class="max-w-6xl mx-auto">
+          <div class="bg-white p-6 rounded-xl shadow-lg">
+            <div id="map" class="w-full h-96 rounded-lg"></div>
+          </div>
+          
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center">
+              <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-car text-2xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Parking Available</h3>
+              <p class="text-gray-600">Free parking for customers</p>
+            </div>
+            <div class="text-center">
+              <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-wheelchair text-2xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Accessible</h3>
+              <p class="text-gray-600">Wheelchair accessible entrance</p>
+            </div>
+            <div class="text-center">
+              <div class="bg-red-100 text-red-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-wifi text-2xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Free WiFi</h3>
+              <p class="text-gray-600">High-speed internet available</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 bg-red-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">What Our Customers Say</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+              <div class="text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span class="ml-2 text-gray-600">5/5</span>
+            </div>
+            <p class="text-gray-700 mb-6 italic">"The best burger I've ever had! The flavors were incredible and the service was exceptional."</p>
+            <div class="flex items-center">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" 
+                   alt="Customer" class="w-12 h-12 rounded-full mr-4">
+              <div>
+                <h4 class="font-bold text-gray-800">John D.</h4>
+                <p class="text-gray-600 text-sm">Regular Customer</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+              <div class="text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <span class="ml-2 text-gray-600">5/5</span>
+            </div>
+            <p class="text-gray-700 mb-6 italic">"Perfect for date nights! The ambiance, food, and wine selection were all outstanding."</p>
+            <div class="flex items-center">
+              <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d9?w=100&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" 
+                   alt="Customer" class="w-12 h-12 rounded-full mr-4">
+              <div>
+                <h4 class="font-bold text-gray-800">Sarah M.</h4>
+                <p class="text-gray-600 text-sm">Food Blogger</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <div class="flex items-center mb-4">
+              <div class="text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <span class="ml-2 text-gray-600">4.5/5</span>
+            </div>
+            <p class="text-gray-700 mb-6 italic">"Excellent service and the truffle pasta was to die for! Will definitely be back."</p>
+            <div class="flex items-center">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=60&ixlib=rb-4.1.0" 
+                   alt="Customer" class="w-12 h-12 rounded-full mr-4">
+              <div>
+                <h4 class="font-bold text-gray-800">Robert T.</h4>
+                <p class="text-gray-600 text-sm">Local Food Critic</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rating Summary -->
+        <div class="mt-12 max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+          <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">Overall Rating</h3>
+          <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="text-center mb-6 md:mb-0">
+              <div class="text-5xl font-bold text-red-600">4.8</div>
+              <div class="text-yellow-400 text-2xl">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <p class="text-gray-600 mt-2">Based on 500+ reviews</p>
+            </div>
+            <div class="space-y-2">
+              <div class="flex items-center">
+                <span class="text-gray-600 w-24">5 stars</span>
+                <div class="w-48 h-2 bg-gray-200 rounded-full mx-4">
+                  <div class="h-full bg-yellow-400 rounded-full" style="width: 75%"></div>
+                </div>
+                <span class="text-gray-600">75%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-gray-600 w-24">4 stars</span>
+                <div class="w-48 h-2 bg-gray-200 rounded-full mx-4">
+                  <div class="h-full bg-yellow-400 rounded-full" style="width: 20%"></div>
+                </div>
+                <span class="text-gray-600">20%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-gray-600 w-24">3 stars</span>
+                <div class="w-48 h-2 bg-gray-200 rounded-full mx-4">
+                  <div class="h-full bg-yellow-400 rounded-full" style="width: 4%"></div>
+                </div>
+                <span class="text-gray-600">4%</span>
+              </div>
+              <div class="flex items-center">
+                <span class="text-gray-600 w-24">2 stars</span>
+                <div class="w-48 h-2 bg-gray-200 rounded-full mx-4">
+                  <div class="h-full bg-yellow-400 rounded-full" style="width: 1%"></div>
+                </div>
+                <span class="text-gray-600">1%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot text-black py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:grid md:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-10">
+        <div class="md:col-span-1 flex flex-col items-center md:items-start">
+          <img src="tasty.png" alt="Tasty Crust Logo"
+            class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 filter brightness-150">
+          <h3 class="text-xl md:text-2xl font-bold text-red-500 mb-1 md:mb-2 text-center md:text-left">Tasty
+            Crust</h3>
+          <p class="text-gray-600 text-xs md:text-sm text-center md:text-left max-w-xs">
+            Savor the Flavor. Modern ordering for a classic taste.
+          </p>
+        </div>
+
+        <div class="text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-red-400">Quick Links</h4>
+          <ul class="space-y-1 md:space-y-2">
+            <li><a href="index.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Home</a>
+            </li>
+            <li><a href="menu.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Menu</a>
+            </li>
+            <li><a href="about.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Our
+                Story</a></li>
+            <li><a href="contact.html"
+                class="text-gray-600 hover:text-red-400 transition duration-300 text-sm md:text-base">Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-red-400">Contact</h4>
+          <ul class="space-y-2 md:space-y-3">
+            <li class="flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-3">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-map-marker-alt text-red-400 text-sm md:text-base"></i>
+                <p class="text-gray-600 text-xs md:text-sm text-center md:text-left">123 New way Road, Creaving City</p>
+              </div>
+            </li>
+            <li class="flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-3">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-phone-alt text-red-400 text-sm md:text-base"></i>
+                <p class="text-gray-600 text-xs md:text-sm text-center md:text-left">(+234) 987 654 3210
+                </p>
+              </div>
+            </li>
+            <li class="flex flex-col md:flex-row items-center md:items-start gap-1 md:gap-3">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-envelope text-red-400 text-sm md:text-base"></i>
+                <p class="text-gray-600 text-xs md:text-sm text-center md:text-left break-all md:break-normal">
+                  TastyCrust@gmail.com</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-red-400">Follow Us</h4>
+          <div class="flex justify-center md:justify-start space-x-3 md:space-x-4">
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Facebook">
+              <i class="fab fa-facebook-f text-xl md:text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Instagram">
+              <i class="fab fa-instagram text-xl md:text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Twitter">
+              <i class="fab fa-twitter text-xl md:text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-600 hover:text-red-400 transition duration-300" aria-label="Tripadvisor">
+              <i class="fab fa-tripadvisor text-xl md:text-2xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-700 pt-6 md:pt-8 text-center text-gray-400 text-xs md:text-sm">
+        <p>&copy; 2025 Tasty Crust. All rights reserved. | Crafted with <i class="fas fa-heart text-red-600 mx-1"></i>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="notification-container" class="fixed top-24 right-4 z-60"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Shopping cart
+    let cart = [];
+
+    // DOM elements for about page
+    const cartToggle = document.getElementById('cart-toggle');
+    const closeCart = document.getElementById('close-cart');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const cartCount = document.getElementById('cart-count');
+    const cartSubtotal = document.getElementById('cart-subtotal');
+    const cartTax = document.getElementById('cart-tax');
+    const cartTotal = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const notificationContainer = document.getElementById('notification-container');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const viewMenuBtn = document.getElementById('view-menu-btn');
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function () {
+      // Update cart from localStorage if available
+      const savedCart = localStorage.getItem('tastyCrustCart');
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+        updateCartDisplay();
+      }
+
+      // Initialize animations
+      animateCounters();
+      initMap();
+      animateProgressBars();
+
+      // Set up event listeners
+      setupEventListeners();
+
+      // Initialize dark mode
+      initDarkMode();
+    });
+
+    // Initialize Dark Mode
+    function initDarkMode() {
+      const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+      const savedMode = localStorage.getItem('darkMode');
+
+      if (savedMode === 'enabled' || (!savedMode && prefersDarkScheme.matches)) {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      }
+
+      darkModeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        
+        if (document.body.classList.contains('dark-mode')) {
+          localStorage.setItem('darkMode', 'enabled');
+          this.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+          localStorage.setItem('darkMode', 'disabled');
+          this.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+      });
+    }
+
+    // Set up all event listeners
+    function setupEventListeners() {
+      // Cart toggle
+      cartToggle.addEventListener('click', toggleCart);
+      closeCart.addEventListener('click', closeCartSidebar);
+
+      // Mobile menu toggle
+      mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+      // View menu button
+      if (viewMenuBtn) {
+        viewMenuBtn.addEventListener('click', function() {
+          window.location.href = 'menu.html';
+        });
+      }
+
+      // Checkout button
+      checkoutBtn.addEventListener('click', checkout);
+
+      // Close cart when clicking outside on mobile
+      document.addEventListener('click', function (event) {
+        if (window.innerWidth <= 768 &&
+          !cartSidebar.contains(event.target) &&
+          !cartToggle.contains(event.target) &&
+          cartSidebar.classList.contains('translate-x-0')) {
+          closeCartSidebar();
+        }
+      });
+    }
+
+    // Animate counters
+    function animateCounters() {
+      const counters = [
+        { id: 'happy-customers', target: 5000 },
+        { id: 'dishes-served', target: 25000 },
+        { id: 'years-experience', target: 15 },
+        { id: 'chef-awards', target: 50 }
+      ];
+
+      counters.forEach(counter => {
+        animateCounter(counter.id, counter.target, 2000);
+      });
+    }
+
+    function animateCounter(elementId, target, duration = 2000) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const start = 0;
+      const increment = target / (duration / 16);
+      let current = start;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = target.toLocaleString() + "+";
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(current).toLocaleString();
+        }
+      }, 16);
+    }
+
+    // Animate progress bars
+    function animateProgressBars() {
+      const progressBars = [
+        { id: 'traditional-progress', target: 95 },
+        { id: 'innovation-progress', target: 90 },
+        { id: 'satisfaction-progress', target: 98 }
+      ];
+
+      setTimeout(() => {
+        progressBars.forEach(bar => {
+          const element = document.getElementById(bar.id);
+          const percentElement = document.getElementById(bar.id.replace('-progress', '-percent'));
+          if (element && percentElement) {
+            let width = 0;
+            const interval = setInterval(() => {
+              if (width >= bar.target) {
+                clearInterval(interval);
+              } else {
+                width++;
+                element.style.width = width + '%';
+                percentElement.textContent = width + '%';
+              }
+            }, 20);
+          }
+        });
+      }, 1000);
+    }
+
+    // Initialize interactive map
+    function initMap() {
+      // Coordinates for restaurant (using sample coordinates)
+      const restaurantLocation = [40.7128, -74.0060];
+      
+      const map = L.map('map').setView(restaurantLocation, 15);
+      
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
+      }).addTo(map);
+      
+      // Custom marker icon
+      const restaurantIcon = L.divIcon({
+        html: '<div class="text-red-600 text-3xl"><i class="fas fa-map-marker-alt"></i></div>',
+        iconSize: [40, 40],
+        className: 'restaurant-marker'
+      });
+      
+      L.marker(restaurantLocation, { icon: restaurantIcon })
+        .addTo(map)
+        .bindPopup(`
+          <div class="p-2">
+            <h3 class="font-bold text-lg">Tasty Crust Restaurant</h3>
+            <p class="text-gray-600">123 New way Road, Creaving City</p>
+            <p class="text-red-600 mt-2"><i class="fas fa-clock mr-1"></i>Open: 7:30AM - 10:00PM</p>
+            <a href="contact.html" class="text-blue-600 hover:underline mt-2 inline-block">Get Directions</a>
+          </div>
+        `)
+        .openPopup();
+
+      // Add click event to recenter map
+      map.on('click', function(e) {
+        map.setView(e.latlng, 15);
+      });
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+      cartItemsContainer.innerHTML = '';
+      let subtotal = 0;
+
+      if (cart.length === 0) {
+        cartItemsContainer.appendChild(emptyCartMessage);
+        checkoutBtn.disabled = true;
+      } else {
+        emptyCartMessage.remove();
+        checkoutBtn.disabled = false;
+
+        cart.forEach((item, index) => {
+          const itemTotal = item.price * item.quantity;
+          subtotal += itemTotal;
+
+          const cartItemElement = document.createElement('div');
+          cartItemElement.className = 'cart-item flex items-center justify-between py-4 border-b border-gray-200';
+          cartItemElement.innerHTML = `
+            <div class="flex-1">
+              <h4 class="font-bold text-gray-800">${item.name}</h4>
+              <p class="text-gray-600">$${item.price.toFixed(2)} each</p>
+            </div>
+            <div class="flex items-center">
+              <button class="decrease-quantity text-gray-500 hover:text-red-600 mr-2" data-index="${index}">
+                <i class="fas fa-minus text-sm"></i>
+              </button>
+              <span class="quantity mx-2 font-bold">${item.quantity}</span>
+              <button class="increase-quantity text-gray-500 hover:text-red-600 ml-2" data-index="${index}">
+                <i class="fas fa-plus text-sm"></i>
+              </button>
+              <span class="ml-4 font-bold text-gray-800">$${itemTotal.toFixed(2)}</span>
+              <button class="remove-item text-red-500 hover:text-red-700 ml-4" data-index="${index}">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          `;
+
+          cartItemsContainer.appendChild(cartItemElement);
+        });
+
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+          button.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            updateQuantity(index, cart[index].quantity - 1);
+          });
+        });
+
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+          button.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            updateQuantity(index, cart[index].quantity + 1);
+          });
+        });
+
+        document.querySelectorAll('.remove-item').forEach(button => {
+          button.addEventListener('click', function () {
+            const index = parseInt(this.getAttribute('data-index'));
+            removeFromCart(index);
+          });
+        });
+      }
+
+      const tax = subtotal * 0.10;
+      const total = subtotal + tax;
+
+      cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+      cartTax.textContent = `$${tax.toFixed(2)}`;
+      cartTotal.textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Remove item from cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+    }
+
+    // Update quantity of item in cart
+    function updateQuantity(index, newQuantity) {
+      if (newQuantity < 1) {
+        removeFromCart(index);
+        return;
+      }
+
+      cart[index].quantity = newQuantity;
+      updateCartDisplay();
+      localStorage.setItem('tastyCrustCart', JSON.stringify(cart));
+    }
+
+    // Toggle cart sidebar
+    function toggleCart() {
+      if (cartSidebar.classList.contains('translate-x-full')) {
+        openCartSidebar();
+      } else {
+        closeCartSidebar();
+      }
+    }
+
+    // Open cart sidebar
+    function openCartSidebar() {
+      cartSidebar.classList.remove('translate-x-full');
+      cartSidebar.classList.add('translate-x-0');
+      cartToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    // Close cart sidebar
+    function closeCartSidebar() {
+      cartSidebar.classList.remove('translate-x-0');
+      cartSidebar.classList.add('translate-x-full');
+      cartToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('hidden');
+    }
+
+    // Enhanced checkout function with live order tracking
+    function checkout() {
+      if (cart.length === 0) return;
+
+      const orderNumber = Math.floor(Math.random() * 10000);
+      const totalAmount = cartTotal.textContent.replace('$', '');
+      
+      alert(`Order #${orderNumber} confirmed! Your total is $${totalAmount}.\nYou will receive a confirmation email shortly.`);
+
+      // Simulate live order tracking
+      simulateLiveOrder(orderNumber);
+
+      cart = [];
+      updateCartDisplay();
+      localStorage.removeItem('tastyCrustCart');
+      closeCartSidebar();
+    }
+
+    // Simulate live order tracking
+    function simulateLiveOrder(orderNumber) {
+      const orderTime = Math.floor(Math.random() * 30) + 15; // 15-45 minutes
+      
+      setTimeout(() => {
+        showNotification(`Order #${orderNumber} will be ready in approximately ${orderTime} minutes!`, 'clock');
+        
+        // Simulate order ready notification
+        setTimeout(() => {
+          showNotification(`Order #${orderNumber} is now ready for pickup!`, 'check-circle');
+        }, orderTime * 1000); // Convert minutes to milliseconds
+      }, 2000);
+    }
+
+    // Show notification
+    function showNotification(message, iconName = 'check-circle') {
+      const notification = document.createElement('div');
+      notification.className = 'bg-green-600 text-white px-6 py-3 rounded-lg shadow-xl animate-slideInRight flex items-center gap-3 mb-2';
+      notification.innerHTML = `
+        <i class="fas fa-${iconName}"></i>
+        ${message}
+      `;
+
+      notificationContainer.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100px)';
+        setTimeout(() => {
+          notificationContainer.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+
+    // Lazy loading images
+    document.addEventListener('DOMContentLoaded', function() {
+      const lazyImages = document.querySelectorAll('img');
+      
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+            }
+            observer.unobserve(img);
+          }
+        });
+      });
+      
+      lazyImages.forEach(img => {
+        if (img.dataset.src) {
+          imageObserver.observe(img);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

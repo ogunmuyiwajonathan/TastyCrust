@@ -31,15 +31,17 @@ html {
 }
 
 .menu-tab.active:hover {
-     background: red;
+    background: red;
 }
 
 .hero-slide {
     transition: opacity 1s ease-in-out;
 }
+
 .hero-slide.active {
     opacity: 1;
 }
+
 .hero-slide.inactive {
     opacity: 0;
 }
@@ -53,6 +55,7 @@ html {
         opacity: 0;
         transform: translateX(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -64,6 +67,7 @@ html {
         opacity: 0;
         transform: translateY(-30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -75,6 +79,7 @@ html {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -86,6 +91,7 @@ html {
         opacity: 0;
         transform: translateX(30px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -109,13 +115,83 @@ html {
 }
 
 /* Default Scrollbar */
-    ::-webkit-scrollbar {
-        width: 12px;
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 10px;
+}
+
+
+.active-nav {
+    position: relative;
+    /* 1. Necessary for absolute positioning of the line */
+    color: #dc2626 !important;
+    /* Change text color */
+}
+
+.active-nav::after {
+    content: '';
+    /* 2. Makes the pseudo-element visible */
+    position: absolute;
+    /* 3. Positions the line relative to the parent link */
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    /* 4. Makes the line span the full width of the link */
+    height: 2px;
+    background-color: #dc2626;
+    /* Animation properties below... */
+}
+
+@keyframes nav-underline-animation {
+    0% {
+        transform: scaleX(0);
+        /* Start: Line is scaled down to 0 width (invisible) */
     }
-    ::-webkit-scrollbar-track {
-        background: #eee;
+
+    100% {
+        transform: scaleX(1);
+        /* End: Line is scaled up to 100% width (visible) */
     }
-    ::-webkit-scrollbar-thumb {
-        background: #bbb;
-        border-radius: 10px;
-    }
+}
+
+.active-nav::after {
+    /* ... other styles ... */
+    transform-origin: right;
+    /* Anchor point for animation */
+    animation: nav-underline-animation 0.5s forwards;
+    /* Run the animation */
+}
+
+
+/* Style for static map note */
+.static-map-note {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Make the map container non-interactive */
+#map {
+  cursor: default !important;
+}
+
+/* Optional: Add a subtle overlay to indicate it's static */
+#map::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+
